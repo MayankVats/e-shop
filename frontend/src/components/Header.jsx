@@ -1,9 +1,12 @@
-import React from "react"
-import { Nav, Navbar, Container } from "react-bootstrap"
-import { LinkContainer } from "react-router-bootstrap"
-import { FaShoppingCart, FaUser } from "react-icons/fa"
+import React from "react";
+import { Nav, Navbar, Container, Badge } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
+import { FaShoppingCart, FaUser } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 const Header = () => {
+  const { cartItems } = useSelector((state) => state.cart);
+
   return (
     <header>
       <Navbar bg="dark" expand="lg" variant="dark" collapseOnSelect>
@@ -15,7 +18,7 @@ const Header = () => {
                   border: "1px solid white",
                   borderRadius: "2px",
                   padding: "2px 4px",
-                  marginRight: "4px"
+                  marginRight: "4px",
                 }}
               >
                 E
@@ -23,7 +26,7 @@ const Header = () => {
               <span
                 style={{
                   paddingBottom: "2px",
-                  borderBottom: "1px solid white"
+                  borderBottom: "1px solid white",
                 }}
               >
                 shop
@@ -36,6 +39,11 @@ const Header = () => {
               <LinkContainer to="/cart">
                 <Nav.Link>
                   <FaShoppingCart /> Cart
+                  {cartItems.length > 0 && (
+                    <Badge pill bg="danger" style={{ marginLeft: "5px" }}>
+                      {cartItems.reduce((acc, item) => acc + item.qty, 0)}
+                    </Badge>
+                  )}
                 </Nav.Link>
               </LinkContainer>
 
@@ -49,7 +57,7 @@ const Header = () => {
         </Container>
       </Navbar>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
